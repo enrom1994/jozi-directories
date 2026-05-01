@@ -1,0 +1,787 @@
+{
+  "name": "Directory Scraper V1.0",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        144
+      ],
+      "id": "a810c367-6f4f-4027-a1d4-a81245e3f6ae",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jozi-scrape",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567890",
+      "name": "Webhook â€“ Trigger from Admin UI",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -800,
+        -160
+      ],
+      "webhookId": "jozi-scrape-trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Router: normalise input from either trigger.\n// Webhook payload: { niche_name, niche_slug, search_term, location, secret }\n// Manual/Queue path: already handled by 'Code â€“ Get Next Pending Row'\nconst body = $input.first()?.json?.body ?? $input.first()?.json ?? {};\nreturn [{\n  json: {\n    niche_name:  String(body.niche_name  ?? '').trim(),\n    niche_slug:  String(body.niche_slug  ?? '').trim(),\n    search_term: String(body.search_term ?? '').trim(),\n    location:    String(body.location    ?? '').trim(),\n    serpApiKey:  $vars.SERP_API_KEY,\n  }\n}];"
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-012345678901",
+      "name": "Code â€“ Normalise Webhook Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -608,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk",
+          "mode": "list",
+          "cachedResultName": "Directory_Scraper_Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 342897792,
+          "mode": "list",
+          "cachedResultName": "Scrape Queue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk/edit#gid=342897792"
+        },
+        "options": {}
+      },
+      "id": "c061c6f3-d6da-4b67-ba02-c38ca08a8be8",
+      "name": "Google Sheets â€“ Read Scrape Queue",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        -608,
+        144
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gTplF70YFsUfSmjD",
+          "name": "KwaadJuice"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const allRows = $input.all();\n\n// Find first row where status is exactly 'pending'\nconst pending = allRows.find(item => {\n  const status = String(item.json['status'] ?? '').trim().toLowerCase();\n  return status === 'pending';\n});\n\nif (!pending) {\n  throw new Error('No pending rows in Scrape Queue. All rows are done or errored.');\n}\n\nconst row = pending.json;\n\nreturn [{\n  json: {\n    niche_name:  String(row['niche_name']  ?? '').trim(),\n    search_term: String(row['search_term'] ?? '').trim(),\n    location:    String(row['location']    ?? '').trim(),\n    row_number:  row['row_number'],\n    serpApiKey:  $vars.SERP_API_KEY,\n  }\n}];"
+      },
+      "id": "39f926eb-ee93-46a9-8f32-4454a8c567e3",
+      "name": "Code â€“ Get Next Pending Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "serpApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google_maps"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.search_term + ' ' + $json.location }}"
+            },
+            {
+              "name": "type",
+              "value": "search"
+            },
+            {
+              "name": "api_key",
+              "value": "={{ $json.serpApiKey }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3ca20340-945e-4486-91c9-4f375e200d01",
+      "name": "SerpApi â€“ Google Maps Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -208,
+        144
+      ],
+      "credentials": {
+        "serpApi": {
+          "id": "lIeYKYlHAUyvZXKR",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "local_results",
+        "options": {}
+      },
+      "id": "dc011da8-b5e9-411e-b502-5688e194779e",
+      "name": "Split â€“ Individual Business Results",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst ctx = $('Code â€“ Get Next Pending Row').item.json;\n\n// Extract suburb from a South African address string.\n// Format: \"Street, Suburb, City, PostalCode, South Africa\"\nfunction extractSuburb(address) {\n  if (!address) return '';\n  // Strip trailing 'South Africa'\n  let s = address.replace(/,\\s*South Africa\\s*$/i, '').trim();\n  // Strip 4-digit postal code\n  s = s.replace(/,\\s*\\d{4}\\s*$/, '').trim();\n  // Split by comma â€” suburb is second-from-last segment\n  const parts = s.split(',').map(p => p.trim()).filter(Boolean);\n  if (parts.length >= 2) return parts[parts.length - 2];\n  return parts[parts.length - 1] || '';\n}\n\nreturn items.map(item => {\n  const r = item.json;\n  const website   = r.website ?? '';\n  const address   = r.address ?? '';\n  const placeId   = r.place_id ?? r.data_id ?? (String(r.title ?? '') + '_' + address);\n\n  // Build a clean, consistent Google Maps URL from the place_id.\n  // Falls back to SerpAPI's own links if no place_id available.\n  const googleMapsUrl = placeId\n    ? 'https://www.google.com/maps/place/?q=place_id:' + placeId\n    : (r.links?.directions ?? r.place_id_search ?? '');\n\n  return {\n    json: {\n      niche:           ctx.niche_name,\n      business_name:   r.title ?? '',\n      address:         address,\n      suburb:          extractSuburb(address),\n      phone:           String(r.phone ?? 'N/A'),\n      website:         website,\n      has_website:     website !== '' ? 'TRUE' : 'FALSE',\n      rating:          r.rating ?? '',\n      review_count:    r.reviews ?? 'N/A',\n      google_maps_url: googleMapsUrl,\n      scraped_at:      new Date().toISOString(),\n      // Internal deduplication key â€” not written to sheet\n      _place_id:       placeId,\n    }\n  };\n});"
+      },
+      "id": "bd347635-0973-4104-a7ed-7641c1e9821e",
+      "name": "Code â€“ Extract & Map Fields",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk",
+          "mode": "list",
+          "cachedResultName": "Directory_Scraper_Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1275442432,
+          "mode": "list",
+          "cachedResultName": "Results",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk/edit#gid=1275442432"
+        },
+        "options": {}
+      },
+      "id": "515d28bf-5db8-4a4d-a672-f98c23aa11a7",
+      "name": "Google Sheets â€“ Read Existing Results",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        400,
+        144
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gTplF70YFsUfSmjD",
+          "name": "KwaadJuice"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "3444c557-22ac-4b14-aca9-8c40d3e651d3",
+      "name": "Merge â€“ New + Existing",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        608,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all();\n\n// Items from 'Read Existing Results' have row_number (added by n8n GSheets node).\n// Items from 'Code â€“ Extract & Map Fields' do NOT have row_number.\nconst existingUrls = new Set(\n  allItems\n    .filter(item => item.json.row_number !== undefined)\n    .map(item => String(item.json['google_maps_url'] ?? '').trim())\n    .filter(url => url !== '')\n);\n\nconst newResults = allItems.filter(item => item.json.row_number === undefined);\n\nif (newResults.length === 0) {\n  // SerpAPI returned no results for this query â€” nothing to write\n  return [];\n}\n\nreturn newResults\n  .filter(item => {\n    const url = String(item.json['google_maps_url'] ?? '').trim();\n    return url !== '' && !existingUrls.has(url);\n  })\n  .map(item => ({ json: item.json }));"
+      },
+      "id": "1cc73a0f-b9b3-4798-b857-c0a6d4547d51",
+      "name": "Code â€“ Deduplicate by URL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk",
+          "mode": "list",
+          "cachedResultName": "Directory_Scraper_Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1275442432,
+          "mode": "list",
+          "cachedResultName": "Results",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk/edit#gid=1275442432"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "niche",
+              "displayName": "niche",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "business_name",
+              "displayName": "business_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "address",
+              "displayName": "address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "suburb",
+              "displayName": "suburb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "website",
+              "displayName": "website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "has_website",
+              "displayName": "has_website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "review_count",
+              "displayName": "review_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "google_maps_url",
+              "displayName": "google_maps_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "scraped_at",
+              "displayName": "scraped_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "_place_id",
+              "displayName": "_place_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "2baadae4-655c-4536-aa8d-c60a2aa1aff0",
+      "name": "Google Sheets â€“ Append to Results",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1008,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gTplF70YFsUfSmjD",
+          "name": "KwaadJuice"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Runs in parallel with the results branch.\n// Marks the processed Scrape Queue row as done regardless\n// of how many results were found (even zero is a valid scrape).\nconst row_number = $('Code â€“ Get Next Pending Row').item.json.row_number;\nif (!row_number) return [];\nreturn [{\n  json: {\n    row_number,\n    scraped_at: new Date().toISOString(),\n    status:     'done'\n  }\n}];"
+      },
+      "id": "8dfd0ca6-a16b-4be6-8346-62e1c59c80e5",
+      "name": "Code â€“ Prepare Mark Done",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk",
+          "mode": "list",
+          "cachedResultName": "Directory_Scraper_Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 342897792,
+          "mode": "list",
+          "cachedResultName": "Scrape Queue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kmj91R6G2ltIVUXYKyiSRolHCt_3Fi7tWtwKes1UIRk/edit#gid=342897792"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "niche_name",
+              "displayName": "niche_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "search_term",
+              "displayName": "search_term",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "location",
+              "displayName": "location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "scraped_at",
+              "displayName": "scraped_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "552186f0-284b-4c7e-8e4b-be7827a3cf65",
+      "name": "Google Sheets â€“ Mark Row Done",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        304
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gTplF70YFsUfSmjD",
+          "name": "KwaadJuice"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const newListings = $('Code – Deduplicate by URL').all().map(i => i.json);\nconst nicheSlug = (newListings[0]?.niche ?? '')\n  .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');\nreturn [{ json: { niche_slug: nicheSlug, listings: newListings, count: newListings.length } }];"
+      },
+      "id": "b2c3d4e5-f6a7-8901-bcde-f12345678902",
+      "name": "Code – Format Ingest Batch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1216,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.github.com/repos/{{$vars.GITHUB_REPO}}/contents/data/{{$json.niche_slug}}.json",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$vars.GITHUB_TOKEN}}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c3d4e5f6-a7b8-9012-cdef-012345678903",
+      "name": "GitHub – GET Current File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1424,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const batch = $('Code – Format Ingest Batch').first().json;\nconst ghFile = $input.first().json;\nconst existingRaw = Buffer.from(ghFile.content.replace(/\\n/g,''),'base64').toString('utf-8');\nconst existing = JSON.parse(existingRaw);\nconst existingIds = new Set(existing.map(r=>r._place_id).filter(Boolean));\nconst toAdd = batch.listings.filter(r=>r._place_id&&!existingIds.has(r._place_id));\nconst merged = [...existing, ...toAdd];\nconst encoded = Buffer.from(JSON.stringify(merged,null,2)+'\\n').toString('base64');\nreturn [{ json: {\n  niche_slug: batch.niche_slug,\n  sha: ghFile.sha,\n  content: encoded,\n  added: toAdd.length,\n  total: merged.length,\n  message: 'chore(data): add '+toAdd.length+' listings to '+batch.niche_slug+'.json [n8n]'\n} }];"
+      },
+      "id": "d4e5f6a7-b8c9-0123-defa-123456789004",
+      "name": "Code – Merge & Deduplicate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.github.com/repos/{{$vars.GITHUB_REPO}}/contents/data/{{$json.niche_slug}}.json",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$vars.GITHUB_TOKEN}}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"message\": \"{{$json.message}}\", \"content\": \"{{$json.content}}\", \"sha\": \"{{$json.sha}}\", \"branch\": \"{{$vars.GITHUB_BRANCH ?? 'main'}}\"}",
+        "options": {}
+      },
+      "id": "e5f6a7b8-c9d0-1234-efab-234567890005",
+      "name": "GitHub – PUT Commit",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1840,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets â€“ Read Scrape Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets â€“ Read Scrape Queue": {
+      "main": [
+        [
+          {
+            "node": "Code â€“ Get Next Pending Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code â€“ Get Next Pending Row": {
+      "main": [
+        [
+          {
+            "node": "SerpApi â€“ Google Maps Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpApi â€“ Google Maps Search": {
+      "main": [
+        [
+          {
+            "node": "Split â€“ Individual Business Results",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code â€“ Prepare Mark Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split â€“ Individual Business Results": {
+      "main": [
+        [
+          {
+            "node": "Code â€“ Extract & Map Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code â€“ Extract & Map Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets â€“ Read Existing Results",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge â€“ New + Existing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets â€“ Read Existing Results": {
+      "main": [
+        [
+          {
+            "node": "Merge â€“ New + Existing",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge â€“ New + Existing": {
+      "main": [
+        [
+          {
+            "node": "Code â€“ Deduplicate by URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code â€“ Deduplicate by URL": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets â€“ Append to Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code â€“ Prepare Mark Done": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets â€“ Mark Row Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets â€“ Append to Results": {
+      "main": [
+        [
+          {
+            "node": "Code â€“ Format Ingest Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code â€“ Format Ingest Batch": {
+      "main": [
+        [
+          {
+            "node": "GitHub â€“ GET Current File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub â€“ GET Current File": {
+      "main": [
+        [
+          {
+            "node": "Code â€“ Merge & Deduplicate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code â€“ Merge & Deduplicate": {
+      "main": [
+        [
+          {
+            "node": "GitHub â€“ PUT Commit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook â€“ Trigger from Admin UI": {
+      "main": [
+        [
+          {
+            "node": "Code â€“ Normalise Webhook Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code â€“ Normalise Webhook Input": {
+      "main": [
+        [
+          {
+            "node": "SerpApi â€“ Google Maps Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "428c4c1d-1695-47ac-81ce-b442641b6c7e",
+  "meta": {
+    "instanceId": "f0f910fc8550da54777e0bec9e51d069c92af943197d439592dcb4ca0e24aa45"
+  },
+  "id": "C0Q9C6MkeN9HZzyp",
+  "tags": []
+}
