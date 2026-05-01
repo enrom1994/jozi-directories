@@ -32,5 +32,11 @@ export default function AdminPage() {
     icon:  n.icon,
   }))
 
-  return <AdminClient nicheStats={nicheStats} niches={niches} />
+  // Pass env checks from server (env vars not readable in browser)
+  const envStatus = {
+    webhookSet: !!process.env.N8N_WEBHOOK_URL,
+    adminEnabled: true,
+  }
+
+  return <AdminClient nicheStats={nicheStats} niches={niches} envStatus={envStatus} />
 }

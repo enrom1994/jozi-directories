@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 // Admin panel — only renders if ADMIN_ENABLED=true is set
 // nicheStats is passed from the server component wrapper (page.jsx)
-export default function AdminClient({ nicheStats, niches }) {
+export default function AdminClient({ nicheStats, niches, envStatus }) {
   const [nicheSlug, setNicheSlug] = useState(niches[0]?.slug ?? '')
   const [location, setLocation]   = useState('')
   const [status, setStatus]       = useState(null) // null | 'loading' | 'ok' | 'error'
@@ -130,8 +130,8 @@ export default function AdminClient({ nicheStats, niches }) {
       <section className="admin-env-section">
         <h2 className="admin-section-title">Environment</h2>
         <div className="admin-env-grid">
-          <EnvRow label="N8N_WEBHOOK_URL" set={!!process.env.NEXT_PUBLIC_N8N_CONFIGURED} />
-          <EnvRow label="ADMIN_ENABLED" set={true} />
+          <EnvRow label="N8N_WEBHOOK_URL" set={envStatus?.webhookSet ?? false} />
+          <EnvRow label="ADMIN_ENABLED" set={envStatus?.adminEnabled ?? true} />
         </div>
       </section>
     </div>
