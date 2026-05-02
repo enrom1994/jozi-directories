@@ -1902,5 +1902,47 @@
     "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ5QfMcnwVlR4R7x19mqUN6nY",
     "scraped_at": "2026-05-02T16:42:15.326Z",
     "_place_id": "ChIJ5QfMcnwVlR4R7x19mqUN6nY"
+  },
+  {
+    "niche": "Auto Electricians",
+    "business_name": "Motolek Alberton (ALBERTON AUTO ELECTRICAL & TOWING CC)",
+    "address": "37 Radio St, Union, Alberton, 1449, South Africa",
+    "suburb": "Union",
+    "phone": "+27 11 902 5116",
+    "website": "http://www.motolek.co.za/",
+    "has_website": "TRUE",
+    "rating": 4.1,
+    "review_count": 201,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJNQy1n20QlR4RNxQ1WTslMUE",
+    "scraped_at": "2026-05-02T16:43:53.279Z",
+    "_place_id": "ChIJNQy1n20QlR4RNxQ1WTslMUE"
+  },
+  {
+    "niche": "Auto Electricians",
+    "business_name": "Alberton Auto Electric",
+    "address": "51 Second Ave, Alberton north, Alberton, 1449, South Africa",
+    "suburb": "Alberton north",
+    "phone": "+27 74 578 0970",
+    "website": "",
+    "has_website": "FALSE",
+    "rating": 5,
+    "review_count": 2,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJteLQsjkRlR4RvkpURljOIVQ",
+    "scraped_at": "2026-05-02T16:43:53.279Z",
+    "_place_id": "ChIJteLQsjkRlR4RvkpURljOIVQ"
+  },
+  {
+    "niche": "Auto Electricians",
+    "business_name": "Sam Auto Electrical",
+    "address": "Gauteng, Pieter Uys Ave, Alberton, 1449, South Africa",
+    "suburb": "Pieter Uys Ave",
+    "phone": "+27 11 869 5633",
+    "website": "https://www.brabys.com/za/gauteng/alberton/auto-electrical-repairs/sam-auto-electrical",
+    "has_website": "TRUE",
+    "rating": 2.7,
+    "review_count": 30,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJu8udeQ0QlR4Rx2jMwrPnPfk",
+    "scraped_at": "2026-05-02T16:43:53.279Z",
+    "_place_id": "ChIJu8udeQ0QlR4Rx2jMwrPnPfk"
   }
 ]
