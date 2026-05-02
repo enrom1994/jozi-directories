@@ -1,1 +1,86 @@
-[]
+[
+  {
+    "niche": "Debt Review Consultants",
+    "business_name": "Debt Rescue Head Office",
+    "address": "Suite 30, 66 Park Ln, Sandown, Sandton, 2031, South Africa",
+    "suburb": "Sandown",
+    "phone": "+27 86 112 3644",
+    "website": "https://www.debtrescue.co.za/?utm_source=google&utm_medium=organic&utm_campaign=gbp-sandton",
+    "has_website": "TRUE",
+    "rating": 4.9,
+    "review_count": 339,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJxSNCBEtzlR4RvtbMmXkOOgU",
+    "scraped_at": "2026-05-02T10:25:14.332Z",
+    "_place_id": "ChIJxSNCBEtzlR4RvtbMmXkOOgU"
+  },
+  {
+    "niche": "Debt Review Consultants",
+    "business_name": "Sandton Debt Counselling - National Debt Review Company",
+    "address": "Block 5 Woodview Office Park, 1 Humber St, Sandton, 2128, South Africa",
+    "suburb": "1 Humber St",
+    "phone": "+27 87 550 1122",
+    "website": "https://www.sandtondc.co.za/",
+    "has_website": "TRUE",
+    "rating": 4.8,
+    "review_count": 16,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJgwzdVrFzlR4RvW0jOIl9-1Y",
+    "scraped_at": "2026-05-02T10:25:14.332Z",
+    "_place_id": "ChIJgwzdVrFzlR4RvW0jOIl9-1Y"
+  },
+  {
+    "niche": "Debt Review Consultants",
+    "business_name": "Debt Sage - Debt Counselling Johannesburg",
+    "address": "292 Surrey Ave, Ferndale, Johannesburg, 2194, South Africa",
+    "suburb": "Ferndale",
+    "phone": "+27 10 005 5350",
+    "website": "http://www.debtsage.co.za/",
+    "has_website": "TRUE",
+    "rating": 4.8,
+    "review_count": 69,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJydAqiZ4OlR4Rp1G2RrlRk8g",
+    "scraped_at": "2026-05-02T10:25:14.332Z",
+    "_place_id": "ChIJydAqiZ4OlR4Rp1G2RrlRk8g"
+  },
+  {
+    "niche": "Debt Review Consultants",
+    "business_name": "Debt Help Organisation",
+    "address": "377 Rivonia Blvd, Rivonia, Sandton, 2128, South Africa",
+    "suburb": "Rivonia",
+    "phone": "N/A",
+    "website": "http://debthelp.org.za/",
+    "has_website": "TRUE",
+    "rating": 5,
+    "review_count": 1,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJjRhvq7ZzlR4Rs_kebtgbiT4",
+    "scraped_at": "2026-05-02T10:25:14.332Z",
+    "_place_id": "ChIJjRhvq7ZzlR4Rs_kebtgbiT4"
+  },
+  {
+    "niche": "Debt Review Consultants",
+    "business_name": "DEBT REVIEW REMOVAL",
+    "address": "3, 87 Commissioner St, Johannesburg, 2000, South Africa",
+    "suburb": "87 Commissioner St",
+    "phone": "+27 87 808 9808",
+    "website": "http://www.debt-review-removal.co.za/",
+    "has_website": "TRUE",
+    "rating": 2.8,
+    "review_count": 4,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJodVCF6IOlR4RulG8-lwrjAw",
+    "scraped_at": "2026-05-02T10:25:14.332Z",
+    "_place_id": "ChIJodVCF6IOlR4RulG8-lwrjAw"
+  },
+  {
+    "niche": "Debt Review Consultants",
+    "business_name": "Debt Switch",
+    "address": "3 Alice Ln, Sandown, Sandton, 2031, South Africa",
+    "suburb": "Sandown",
+    "phone": "+27 10 054 9205",
+    "website": "https://debtswitch.co.za/contact-us/",
+    "has_website": "TRUE",
+    "rating": 3.7,
+    "review_count": 6,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJnbbkBDJzlR4RcxymM794xN8",
+    "scraped_at": "2026-05-02T10:25:14.332Z",
+    "_place_id": "ChIJnbbkBDJzlR4RcxymM794xN8"
+  }
+]
