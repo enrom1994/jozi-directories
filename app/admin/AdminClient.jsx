@@ -1,18 +1,19 @@
 'use client'
 
 import { useState } from 'react'
+import { LOCATIONS, LOCATION_GROUPS } from '@/lib/locations'
 
 // Admin panel — only renders if ADMIN_ENABLED=true is set
 // nicheStats is passed from the server component wrapper (page.jsx)
 export default function AdminClient({ nicheStats, niches, envStatus, pendingCount = 0, totalNiches = 0 }) {
   const [nicheSlug, setNicheSlug] = useState(niches[0]?.slug ?? '')
-  const [location, setLocation]   = useState('')
+  const [location, setLocation]   = useState(LOCATIONS[0]?.value ?? '')
   const [status, setStatus]       = useState(null) // null | 'loading' | 'ok' | 'error'
   const [message, setMessage]     = useState('')
 
   async function handleScrape(e) {
     e.preventDefault()
-    if (!location.trim()) return
+    if (!location) return
 
     setStatus('loading')
     setMessage('')
@@ -21,7 +22,7 @@ export default function AdminClient({ nicheStats, niches, envStatus, pendingCoun
       const res = await fetch('/api/trigger-scrape', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ niche_slug: nicheSlug, location: location.trim() }),
+        body:    JSON.stringify({ niche_slug: nicheSlug, location }),
       })
       const data = await res.json()
 
@@ -95,17 +96,22 @@ export default function AdminClient({ nicheStats, niches, envStatus, pendingCoun
           </div>
 
           <div className="admin-form-row">
-            <label className="admin-label" htmlFor="location-input">Location</label>
-            <input
-              id="location-input"
-              className="admin-input"
-              type="text"
-              placeholder="e.g. Boksburg Johannesburg"
+            <label className="admin-label" htmlFor="location-select">Location</label>
+            <select
+              id="location-select"
+              className="admin-select"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              required
-            />
-            <span className="admin-hint">Be specific — this goes straight to SerpAPI as the location query.</span>
+            >
+              {LOCATION_GROUPS.map((group) => (
+                <optgroup key={group} label={`— ${group}`}>
+                  {LOCATIONS.filter((l) => l.group === group).map((l) => (
+                    <option key={l.value} value={l.value}>{l.label}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+            <span className="admin-hint">Area within Johannesburg to scrape.</span>
           </div>
 
           <button
