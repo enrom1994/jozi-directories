@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 // Admin panel — only renders if ADMIN_ENABLED=true is set
 // nicheStats is passed from the server component wrapper (page.jsx)
-export default function AdminClient({ nicheStats, niches, envStatus }) {
+export default function AdminClient({ nicheStats, niches, envStatus, pendingCount = 0, totalNiches = 0 }) {
   const [nicheSlug, setNicheSlug] = useState(niches[0]?.slug ?? '')
   const [location, setLocation]   = useState('')
   const [status, setStatus]       = useState(null) // null | 'loading' | 'ok' | 'error'
@@ -49,18 +49,31 @@ export default function AdminClient({ nicheStats, niches, envStatus }) {
       {/* Stats grid */}
       <section className="admin-stats-section">
         <h2 className="admin-section-title">Current Dataset</h2>
-        <div className="admin-stats-grid">
-          {nicheStats.map((s) => (
-            <div key={s.slug} className="admin-stat-card">
-              <span className="admin-stat-icon">{s.icon}</span>
-              <div className="admin-stat-body">
-                <div className="admin-stat-label">{s.label}</div>
-                <div className="admin-stat-value">{s.total.toLocaleString()}</div>
-                <div className="admin-stat-meta">{s.suburbs} areas · avg {s.avgRating}★</div>
-              </div>
+        {nicheStats.length === 0 ? (
+          <div style={{ color: 'var(--ink-3)', fontSize: 14, padding: '16px 0' }}>
+            No data yet — {pendingCount} of {totalNiches} niches awaiting first scrape.
+          </div>
+        ) : (
+          <>
+            <div className="admin-stats-grid">
+              {nicheStats.map((s) => (
+                <div key={s.slug} className="admin-stat-card">
+                  <span className="admin-stat-icon">{s.icon}</span>
+                  <div className="admin-stat-body">
+                    <div className="admin-stat-label">{s.label}</div>
+                    <div className="admin-stat-value">{s.total.toLocaleString()}</div>
+                    <div className="admin-stat-meta">{s.suburbs} areas · avg {s.avgRating}★</div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+            {pendingCount > 0 && (
+              <p style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 12 }}>
+                + {pendingCount} niches not yet scraped
+              </p>
+            )}
+          </>
+        )}
       </section>
 
       {/* Trigger form */}

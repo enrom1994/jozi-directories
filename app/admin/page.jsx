@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import { NICHES } from '@/lib/niches'
 import { getNicheStats } from '@/lib/data'
 import AdminClient from './AdminClient'
+import Header from '@/components/Header'
 
 export const metadata = {
   title: 'Admin — Jozi Directories',
@@ -17,13 +18,15 @@ export default function AdminPage() {
     notFound()
   }
 
-  // Build stats for each registered niche
-  const nicheStats = NICHES.map((niche) => ({
-    slug:      niche.slug,
-    label:     niche.label,
-    icon:      niche.icon,
+  // Build stats — only show niches that have been scraped
+  const allStats = NICHES.map((niche) => ({
+    slug:  niche.slug,
+    label: niche.label,
+    icon:  niche.icon,
     ...getNicheStats(niche),
   }))
+  const nicheStats   = allStats.filter((s) => s.total > 0)
+  const pendingCount = allStats.filter((s) => s.total === 0).length
 
   // Slim niche list for the client dropdown
   const niches = NICHES.map((n) => ({
@@ -38,5 +41,16 @@ export default function AdminPage() {
     adminEnabled: true,
   }
 
-  return <AdminClient nicheStats={nicheStats} niches={niches} envStatus={envStatus} />
+  return (
+    <>
+      <Header />
+      <AdminClient
+        nicheStats={nicheStats}
+        niches={niches}
+        envStatus={envStatus}
+        pendingCount={pendingCount}
+        totalNiches={NICHES.length}
+      />
+    </>
+  )
 }
