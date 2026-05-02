@@ -880,5 +880,47 @@
     "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ8zC_Wp4XlR4RjT-x9Dh8Z5k",
     "scraped_at": "2026-05-02T14:10:42.359Z",
     "_place_id": "ChIJ8zC_Wp4XlR4RjT-x9Dh8Z5k"
+  },
+  {
+    "niche": "Debt Review Consultants",
+    "business_name": "Debt 365 Solutions | Debt Review Removal",
+    "address": "9 Spoorlyn Rd, Rhodesfield, Kempton Park, 1619, South Africa",
+    "suburb": "Rhodesfield",
+    "phone": "+27 87 012 6412",
+    "website": "https://www.debt365.co.za/",
+    "has_website": "TRUE",
+    "rating": 5,
+    "review_count": 44,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ5SjLfEMVlR4RSgwLYpNrifs",
+    "scraped_at": "2026-05-02T14:47:35.463Z",
+    "_place_id": "ChIJ5SjLfEMVlR4RSgwLYpNrifs"
+  },
+  {
+    "niche": "Debt Review Consultants",
+    "business_name": "TP Debt Solutions",
+    "address": "Closemore Building, 11 Monument Rd, Kempton Park, Johannesburg, 1619, South Africa",
+    "suburb": "Kempton Park",
+    "phone": "+27 11 394 6145",
+    "website": "",
+    "has_website": "FALSE",
+    "rating": 4.3,
+    "review_count": 3,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJw18DC-0UlR4R6cYUFriZqyA",
+    "scraped_at": "2026-05-02T14:47:35.463Z",
+    "_place_id": "ChIJw18DC-0UlR4R6cYUFriZqyA"
+  },
+  {
+    "niche": "Debt Review Consultants",
+    "business_name": "Sa Debt Relief",
+    "address": "42 Dann Rd, Aston Manor, Kempton Park, 1630, South Africa",
+    "suburb": "Aston Manor",
+    "phone": "+27 11 972 1011",
+    "website": "",
+    "has_website": "FALSE",
+    "rating": 3,
+    "review_count": 2,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ6Z7C5d4UlR4R71AenyYlN24",
+    "scraped_at": "2026-05-02T14:47:35.463Z",
+    "_place_id": "ChIJ6Z7C5d4UlR4R71AenyYlN24"
   }
 ]
