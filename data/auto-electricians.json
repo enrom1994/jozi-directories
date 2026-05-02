@@ -1454,5 +1454,33 @@
     "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ7d1Mhs1llR4Ra5H_RuciaFc",
     "scraped_at": "2026-05-02T16:38:14.169Z",
     "_place_id": "ChIJ7d1Mhs1llR4Ra5H_RuciaFc"
+  },
+  {
+    "niche": "Auto Electricians",
+    "business_name": "Breno Parts",
+    "address": "91 Rietfontein Rd, Boksburg West, Johannesburg, 1446, South Africa",
+    "suburb": "Boksburg West",
+    "phone": "+27 11 823 1473",
+    "website": "http://www.brenoparts.co.za/",
+    "has_website": "TRUE",
+    "rating": 4.3,
+    "review_count": 507,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ5VYWLfsWlR4RLoArNezMWHU",
+    "scraped_at": "2026-05-02T16:39:04.716Z",
+    "_place_id": "ChIJ5VYWLfsWlR4RLoArNezMWHU"
+  },
+  {
+    "niche": "Auto Electricians",
+    "business_name": "Big 3 Auto Electrical and Parts",
+    "address": "1 Cnr Paul Smit &, Tile Rd, Anderbolt, Boksburg, 1459, South Africa",
+    "suburb": "Anderbolt",
+    "phone": "+27 10 355 1225",
+    "website": "http://www.big3autoelectrical.co.za/",
+    "has_website": "TRUE",
+    "rating": 5,
+    "review_count": 1,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJXw0n_mQXlR4Rbjm23u5Zfr8",
+    "scraped_at": "2026-05-02T16:39:04.716Z",
+    "_place_id": "ChIJXw0n_mQXlR4Rbjm23u5Zfr8"
   }
 ]
