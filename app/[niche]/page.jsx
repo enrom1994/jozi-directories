@@ -5,6 +5,7 @@ import Footer from '../../components/Footer'
 import { NICHES, getNicheBySlug } from '../../lib/niches'
 import { getSuburbsWithCounts, getNicheStats, slugify } from '../../lib/data'
 import SuburbSearch from '../../components/SuburbSearch'
+import { BASE_URL } from '../../lib/config'
 
 export async function generateStaticParams() {
   return NICHES.map(n => ({ niche: n.slug }))
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }) {
   const niche = getNicheBySlug(params.niche)
   if (!niche) return {}
   return {
-    title: `Best ${niche.label} in Johannesburg (2025) | Jozi Directories`,
+    title: `Best ${niche.label} in Johannesburg (2026) | Jozi Directories`,
     description: `Find and compare the best ${niche.label.toLowerCase()} in Johannesburg and Gauteng. Real Google Maps data, sorted by rating.`,
   }
 }
@@ -100,6 +101,33 @@ export default function NichePage({ params }) {
         </section>
 
       </main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+                { '@type': 'ListItem', position: 2, name: niche.label, item: `${BASE_URL}/${niche.slug}` },
+              ],
+            },
+            {
+              '@type': 'ItemList',
+              name: `Best ${niche.label} in Johannesburg`,
+              description: niche.description,
+              numberOfItems: suburbs.length,
+              itemListElement: suburbs.map((s, i) => ({
+                '@type': 'ListItem',
+                position: i + 1,
+                name: `${niche.label} in ${s.name}`,
+                url: `${BASE_URL}/${niche.slug}/${s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`,
+              })),
+            },
+          ]
+        })
+      }} />
+
       <Footer />
     </>
   )

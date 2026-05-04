@@ -6,6 +6,7 @@ import ListingCard from '../../../components/ListingCard'
 import SuburbSidebarLinks from '../../../components/SuburbSidebarLinks'
 import { NICHES, getNicheBySlug } from '../../../lib/niches'
 import { getListings, getSuburbsForNiche, slugify, deslugify } from '../../../lib/data'
+import { BASE_URL } from '../../../lib/config'
 
 export async function generateStaticParams() {
   const params = []
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }) {
   if (!niche) return {}
   const suburbLabel = deslugify(params.suburb)
   return {
-    title: `Best ${niche.label} in ${suburbLabel}, Johannesburg (2025) | Jozi Directories`,
+    title: `Best ${niche.label} in ${suburbLabel}, Johannesburg (2026) | Jozi Directories`,
     description: `Find the best ${niche.label.toLowerCase()} in ${suburbLabel}, Johannesburg. Verified listings from Google Maps, sorted by rating.`,
     keywords: niche.searchKeywords.map(k => `${k} ${suburbLabel}`),
   }
@@ -163,11 +164,36 @@ export default function SuburbPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{
         __html: JSON.stringify({
           '@context': 'https://schema.org',
-          '@type': 'BreadcrumbList',
-          itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home',      item: 'https://jozidirectories.co.za' },
-            { '@type': 'ListItem', position: 2, name: niche.label, item: `https://jozidirectories.co.za/${niche.slug}` },
-            { '@type': 'ListItem', position: 3, name: suburbLabel, item: `https://jozidirectories.co.za/${niche.slug}/${params.suburb}` },
+          '@graph': [
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home',      item: BASE_URL },
+                { '@type': 'ListItem', position: 2, name: niche.label, item: `${BASE_URL}/${niche.slug}` },
+                { '@type': 'ListItem', position: 3, name: suburbLabel, item: `${BASE_URL}/${niche.slug}/${params.suburb}` },
+              ],
+            },
+            ...listings.map(b => ({
+              '@type': 'LocalBusiness',
+              name: b.business_name,
+              address: b.address ? {
+                '@type': 'PostalAddress',
+                streetAddress: b.address,
+                addressLocality: b.suburb,
+                addressRegion: 'Gauteng',
+                addressCountry: 'ZA',
+              } : undefined,
+              telephone: b.phone || undefined,
+              url: (b.has_website === 'TRUE' || b.has_website === true) ? b.website : undefined,
+              aggregateRating: parseFloat(b.rating) > 0 ? {
+                '@type': 'AggregateRating',
+                ratingValue: parseFloat(b.rating).toFixed(1),
+                reviewCount: parseInt(b.review_count) || 1,
+                bestRating: '5',
+                worstRating: '1',
+              } : undefined,
+              sameAs: b.google_maps_url || undefined,
+            }))
           ]
         })
       }} />
