@@ -1,0 +1,677 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #F8F4EF;
+  --surface: #FFFFFF;
+  --ink: #17120B;
+  --muted: #6B6050;
+  --faint: #A8998A;
+  --border: #E4DDD4;
+  --accent: #B54419;
+  --accent-bg: #FCF0EB;
+  --accent-mid: #D4541F;
+  --green: #1A7A4A;
+  --green-bg: #EAF6EE;
+  --tag-bg: #EDE8E1;
+}
+
+.page { background: var(--bg); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; border: 1px solid var(--color-border-tertiary); border-radius: 12px; overflow: hidden; }
+
+/* ── NAV ── */
+.nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+}
+.logo-badge {
+  width: 32px; height: 32px;
+  background: var(--accent);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 900; color: white; letter-spacing: -0.5px;
+  flex-shrink: 0;
+}
+.logo-text { font-size: 14px; font-weight: 800; color: var(--ink); letter-spacing: -0.4px; white-space: nowrap; }
+.logo-sub { font-size: 9px; color: var(--faint); letter-spacing: 0.07em; text-transform: uppercase; }
+
+.nav-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  height: 36px;
+  padding: 0 12px;
+  gap: 8px;
+  margin: 0 8px;
+}
+.nav-search-icon {
+  width: 12px; height: 12px;
+  border: 1.5px solid var(--faint);
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+.nav-search-icon::after {
+  content: '';
+  position: absolute;
+  right: -4px; bottom: -4px;
+  width: 4px; height: 1.5px;
+  background: var(--faint);
+  transform: rotate(45deg);
+}
+.nav-search-text { font-size: 12px; color: var(--faint); flex: 1; }
+.nav-search-kbd {
+  font-size: 10px;
+  color: var(--faint);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.nav-loc {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 6px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.loc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.nav-loc-text { font-size: 11.5px; font-weight: 600; color: var(--ink); }
+.nav-loc-caret { font-size: 9px; color: var(--faint); }
+
+.nav-cta {
+  background: var(--accent);
+  color: white;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 36px 24px 32px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  min-height: 280px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--bg) 0%, #EDE8DF 100%);
+  z-index: 0;
+}
+.hero-left {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+}
+.hero-eyebrow {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.hero-h1 {
+  font-size: 34px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -1.2px;
+  line-height: 1.08;
+  margin-bottom: 12px;
+}
+.hero-h1 span { color: var(--accent); }
+.hero-sub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 22px;
+  max-width: 360px;
+}
+.hero-sub strong { color: var(--ink); font-weight: 700; }
+
+.hero-search {
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  height: 48px;
+  padding: 0 8px 0 16px;
+  gap: 10px;
+  max-width: 420px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.hs-icon {
+  width: 14px; height: 14px;
+  border: 2px solid var(--faint);
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+.hs-icon::after {
+  content: '';
+  position: absolute;
+  right: -5px; bottom: -5px;
+  width: 5px; height: 2px;
+  background: var(--faint);
+  transform: rotate(45deg);
+}
+.hs-input-fake { font-size: 13px; color: var(--faint); flex: 1; }
+.hs-divider { width: 1px; height: 28px; background: var(--border); }
+.hs-loc-text { font-size: 12px; color: var(--muted); font-weight: 600; padding: 0 8px; white-space: nowrap; }
+.hs-btn {
+  background: var(--accent);
+  color: white;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 0 16px;
+  height: 36px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* LOCATION PROMPT */
+.loc-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  background: var(--green-bg);
+  border: 1px solid #C3E8D2;
+  border-radius: 7px;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+.loc-prompt-icon {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  position: relative;
+  flex-shrink: 0;
+}
+.loc-prompt-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px; height: 5px;
+  background: var(--green);
+  border-radius: 50%;
+}
+.loc-prompt-text { font-size: 11.5px; font-weight: 600; color: var(--green); }
+.loc-prompt-sub { font-size: 10.5px; color: #3A9966; }
+.loc-prompt-arrow { font-size: 12px; color: var(--green); margin-left: 4px; }
+
+/* ── CARD CAROUSEL ── */
+.hero-right {
+  position: relative;
+  z-index: 1;
+  width: 240px;
+  flex-shrink: 0;
+  height: 220px;
+}
+
+@keyframes card-cycle-1 {
+  0%, 30% { transform: rotate(-6deg) translate(-24px, 12px); z-index: 1; opacity: 0.7; }
+  35%, 95% { transform: rotate(4deg) translate(18px, -8px); z-index: 3; opacity: 1; }
+  100% { transform: rotate(-6deg) translate(-24px, 12px); z-index: 1; opacity: 0.7; }
+}
+@keyframes card-cycle-2 {
+  0%, 65% { transform: rotate(4deg) translate(18px, -8px); z-index: 3; opacity: 1; }
+  70%, 100% { transform: rotate(-6deg) translate(-24px, 12px); z-index: 1; opacity: 0.7; }
+}
+
+.biz-card {
+  position: absolute;
+  width: 178px;
+  background: var(--surface);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  top: 10px;
+  left: 20px;
+}
+.biz-card.card-1 {
+  animation: card-cycle-1 6s ease-in-out infinite;
+  transform: rotate(-6deg) translate(-24px, 12px);
+}
+.biz-card.card-2 {
+  animation: card-cycle-2 6s ease-in-out infinite;
+  transform: rotate(4deg) translate(18px, -8px);
+}
+.biz-card.card-3 {
+  transform: rotate(10deg) translate(44px, -20px);
+  z-index: 0;
+  opacity: 0.45;
+}
+
+.card-photo {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  display: block;
+}
+.card-photo-placeholder {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.card-body {
+  padding: 10px 12px 11px;
+}
+.card-cat {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: var(--faint);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.card-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.2px;
+  line-height: 1.3;
+  margin-bottom: 5px;
+}
+.card-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.card-stars { display: flex; gap: 1.5px; }
+.cs { width: 9px; height: 9px; background: var(--accent); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+.card-rnum { font-size: 11px; font-weight: 700; color: var(--ink); }
+.card-rcnt { font-size: 10px; color: var(--faint); }
+.card-suburb {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.suburb-pin {
+  width: 7px; height: 7px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--accent);
+  transform: rotate(-45deg);
+  flex-shrink: 0;
+}
+
+/* ── LOCATION BANNER ── */
+.loc-banner {
+  background: #FFFBF5;
+  border-bottom: 1px solid #EEDCC8;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.loc-banner-text { font-size: 12px; color: var(--muted); flex: 1; }
+.loc-banner-text strong { color: var(--ink); }
+.loc-banner-btn {
+  background: var(--ink);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 6px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.loc-banner-dismiss { font-size: 16px; color: var(--faint); cursor: pointer; padding: 0 4px; }
+
+/* ── CATEGORY STRIP ── */
+.cat-strip {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.strip-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: var(--faint);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.cat-pills {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.cat-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+.cat-pill-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+.cat-pill-count {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ── TOP RATED SECTION ── */
+.section {
+  padding: 24px 24px 0;
+}
+.section-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.section-title { font-size: 15px; font-weight: 800; color: var(--ink); letter-spacing: -0.3px; }
+.section-title span { color: var(--accent); }
+.section-link { font-size: 11.5px; color: var(--accent); font-weight: 600; }
+
+.top-listings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding-bottom: 20px;
+}
+.top-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+.top-rank {
+  width: 22px; height: 22px;
+  background: var(--tag-bg);
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 800;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.top-rank.r1 { background: var(--accent-bg); color: var(--accent); }
+.top-info { flex: 1; min-width: 0; }
+.top-name { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 3px; line-height: 1.3; }
+.top-meta { font-size: 10.5px; color: var(--muted); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.top-rating { font-size: 11px; font-weight: 700; color: var(--accent); }
+.meta-sep { color: var(--faint); }
+
+/* ── BROWSE GRID ── */
+.browse-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 0 24px 24px;
+}
+.browse-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 14px;
+  cursor: pointer;
+}
+.browse-card-name { font-size: 12.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
+.browse-card-desc { font-size: 10px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+.browse-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.browse-card-count { font-size: 10.5px; font-weight: 800; color: var(--accent); letter-spacing: 0.02em; }
+.browse-card-arrow { font-size: 12px; color: var(--faint); }
+</style>
+
+<h2 class="sr-only">Jozi Directories full homepage redesign concept</h2>
+
+<div class="page">
+
+  <!-- NAV -->
+  <div class="nav">
+    <div style="display:flex;align-items:center;gap:9px;flex-shrink:0;">
+      <div class="logo-badge">JHB</div>
+      <div>
+        <div class="logo-text">Jozi Directories</div>
+        <div class="logo-sub">Johannesburg Business Register</div>
+      </div>
+    </div>
+
+    <div class="nav-search">
+      <div class="nav-search-icon"></div>
+      <div class="nav-search-text">Search businesses, categories…</div>
+      <div class="nav-search-kbd">⌘K</div>
+    </div>
+
+    <div class="nav-loc">
+      <div class="loc-dot"></div>
+      <div class="nav-loc-text">Johannesburg</div>
+      <div class="nav-loc-caret">▾</div>
+    </div>
+
+    <div class="nav-cta">+ Add Business</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><div class="eyebrow-dot"></div>Johannesburg · Gauteng · South Africa</div>
+      <div class="hero-h1">Find trusted local<br>businesses <span>in Joburg.</span></div>
+      <div class="hero-sub"><strong>1,279 real listings</strong> sourced from Google Maps. Sorted by rating. No fake entries, no paid placements.</div>
+
+      <div class="hero-search">
+        <div class="hs-icon"></div>
+        <div class="hs-input-fake">Search plumbers, barbers, electricians…</div>
+        <div class="hs-divider"></div>
+        <div class="hs-loc-text">Joburg ▾</div>
+        <div class="hs-btn">Search</div>
+      </div>
+
+      <div class="loc-prompt">
+        <div class="loc-prompt-icon"></div>
+        <div>
+          <div class="loc-prompt-text">Show results near me</div>
+          <div class="loc-prompt-sub">Detect my suburb automatically</div>
+        </div>
+        <div class="loc-prompt-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- CARD CAROUSEL -->
+    <div class="hero-right">
+      <!-- Card 3 (back) -->
+      <div class="biz-card card-3">
+        <div class="card-photo-placeholder" style="background: linear-gradient(135deg, #2D5016 0%, #4A7C25 100%);">Tyre &amp; Auto</div>
+        <div class="card-body">
+          <div class="card-cat">Tyre &amp; Auto</div>
+          <div class="card-name">FastFit Tyres Randburg</div>
+          <div class="card-rating">
+            <div class="card-stars"><div class="cs"></div><div class="cs"></div><div class="cs"></div><div class="cs"></div><div class="cs"></div></div>
+            <div class="card-rnum">4.9</div>
+            <div class="card-rcnt">(212)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 1 -->
+      <div class="biz-card card-1">
+        <div class="card-photo-placeholder" style="background: linear-gradient(135deg, #7A2010 0%, #B54419 100%);">Hair Salon</div>
+        <div class="card-body">
+          <div class="card-cat">Hair Salons</div>
+          <div class="card-name">Glam Studio Melville</div>
+          <div class="card-rating">
+            <div class="card-stars"><div class="cs"></div><div class="cs"></div><div class="cs"></div><div class="cs"></div><div class="cs"></div></div>
+            <div class="card-rnum">5.0</div>
+            <div class="card-rcnt">(89)</div>
+          </div>
+          <div class="card-suburb"><div class="suburb-pin"></div>Melville, Johannesburg</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="biz-card card-2">
+        <div class="card-photo-placeholder" style="background: linear-gradient(135deg, #1A3B5C 0%, #2D6A9F 100%);">Driving School</div>
+        <div class="card-body">
+          <div class="card-cat">Driving Schools</div>
+          <div class="card-name">Ray Driving School Florida</div>
+          <div class="card-rating">
+            <div class="card-stars"><div class="cs"></div><div class="cs"></div><div class="cs"></div><div class="cs"></div><div class="cs"></div></div>
+            <div class="card-rnum">5.0</div>
+            <div class="card-rcnt">(190)</div>
+          </div>
+          <div class="card-suburb"><div class="suburb-pin"></div>Florida, Roodepoort</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCATION BANNER -->
+  <div class="loc-banner">
+    <div style="width:32px;height:32px;background:var(--accent-bg);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div style="width:12px;height:12px;border-radius:50%;border:2px solid var(--accent);position:relative;">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:4px;height:4px;background:var(--accent);border-radius:50%;"></div>
+      </div>
+    </div>
+    <div class="loc-banner-text">We couldn't detect your suburb. <strong>Share your location</strong> to see top-rated businesses near you.</div>
+    <div class="loc-banner-btn">Use my location</div>
+    <div class="loc-banner-btn" style="background:transparent;color:var(--muted);border:1px solid var(--border);">Enter suburb</div>
+    <div class="loc-banner-dismiss">×</div>
+  </div>
+
+  <!-- CATEGORY STRIP -->
+  <div class="cat-strip">
+    <div class="strip-label">Browse by category</div>
+    <div class="cat-pills">
+      <div class="cat-pill"><div class="cat-pill-name">Driving Schools</div><div class="cat-pill-count">88</div></div>
+      <div class="cat-pill"><div class="cat-pill-name">Barbers</div><div class="cat-pill-count">235</div></div>
+      <div class="cat-pill"><div class="cat-pill-name">Nail Bars</div><div class="cat-pill-count">225</div></div>
+      <div class="cat-pill"><div class="cat-pill-name">Solar &amp; Inverter</div><div class="cat-pill-count">170</div></div>
+      <div class="cat-pill"><div class="cat-pill-name">Dog Groomers</div><div class="cat-pill-count">187</div></div>
+      <div class="cat-pill"><div class="cat-pill-name">Phone Repairs</div><div class="cat-pill-count">107</div></div>
+      <div class="cat-pill"><div class="cat-pill-name">Auto Electricians</div><div class="cat-pill-count">188</div></div>
+      <div class="cat-pill"><div class="cat-pill-name">Debt Review</div><div class="cat-pill-count">79</div></div>
+    </div>
+  </div>
+
+  <!-- TOP RATED NEAR YOU -->
+  <div class="section" style="margin-top:20px;">
+    <div class="section-hdr">
+      <div class="section-title">Top rated near <span>Johannesburg</span></div>
+      <div class="section-link">View all →</div>
+    </div>
+    <div class="top-listings">
+      <div class="top-row">
+        <div class="top-rank r1">1</div>
+        <div class="top-info">
+          <div class="top-name">Ray Driving School</div>
+          <div class="top-meta"><span class="top-rating">5.0</span><span class="meta-sep">·</span>Florida<span class="meta-sep">·</span>Driving Schools</div>
+        </div>
+      </div>
+      <div class="top-row">
+        <div class="top-rank r1">2</div>
+        <div class="top-info">
+          <div class="top-name">Masiza Driving School</div>
+          <div class="top-meta"><span class="top-rating">4.9</span><span class="meta-sep">·</span>Florida<span class="meta-sep">·</span>Driving Schools</div>
+        </div>
+      </div>
+      <div class="top-row">
+        <div class="top-rank">3</div>
+        <div class="top-info">
+          <div class="top-name">Royal R Us Mobile Pet Grooming</div>
+          <div class="top-meta"><span class="top-rating">5.0</span><span class="meta-sep">·</span>Johannesburg<span class="meta-sep">·</span>Dog Groomers</div>
+        </div>
+      </div>
+      <div class="top-row">
+        <div class="top-rank">4</div>
+        <div class="top-info">
+          <div class="top-name">Radiant Beautics Nail Bar</div>
+          <div class="top-meta"><span class="top-rating">5.0</span><span class="meta-sep">·</span>Wilgeheuwel<span class="meta-sep">·</span>Nail Bars</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BROWSE GRID -->
+  <div class="section">
+    <div class="section-hdr">
+      <div class="section-title">Browse by category</div>
+      <div class="section-link">All 8 categories →</div>
+    </div>
+  </div>
+  <div class="browse-grid" style="margin-top:14px;">
+    <div class="browse-card">
+      <div class="browse-card-name">Driving Schools</div>
+      <div class="browse-card-desc">Accredited K53 schools across Johannesburg &amp; Gauteng</div>
+      <div class="browse-card-foot"><div class="browse-card-count">88 listings</div><div class="browse-card-arrow">→</div></div>
+    </div>
+    <div class="browse-card">
+      <div class="browse-card-name">Barbers</div>
+      <div class="browse-card-desc">Top barbershops and barbers near you in Johannesburg</div>
+      <div class="browse-card-foot"><div class="browse-card-count">235 listings</div><div class="browse-card-arrow">→</div></div>
+    </div>
+    <div class="browse-card">
+      <div class="browse-card-name">Solar &amp; Inverter</div>
+      <div class="browse-card-desc">Solar panels and inverter backup installers across Gauteng</div>
+      <div class="browse-card-foot"><div class="browse-card-count">170 listings</div><div class="browse-card-arrow">→</div></div>
+    </div>
+    <div class="browse-card">
+      <div class="browse-card-name">Auto Electricians</div>
+      <div class="browse-card-desc">Vehicle electrical repairs across Johannesburg</div>
+      <div class="browse-card-foot"><div class="browse-card-count">188 listings</div><div class="browse-card-arrow">→</div></div>
+    </div>
+  </div>
+
+</div>

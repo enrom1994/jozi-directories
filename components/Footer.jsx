@@ -3,66 +3,36 @@ import { NICHES } from '../lib/niches'
 
 export default function Footer() {
   return (
-    <footer style={{ borderTop: '1px solid var(--border)', background: 'var(--surface)', marginTop: 80 }}>
+    <footer className="site-footer">
+      <div className="container footer-inner">
 
-      <div className="container" style={{ paddingTop: 48, paddingBottom: 48 }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: 40,
-        }}>
-
-          {/* Brand */}
-          <div>
-            <div className="site-logo" style={{ marginBottom: 14 }}>
-              <span className="site-logo-badge">JHB</span>
-              <span className="site-logo-name">Jozi Directories</span>
-            </div>
-            <p style={{ fontSize: 13, color: 'var(--ink-3)', lineHeight: 1.65, maxWidth: 220 }}>
-              Local business listings for Johannesburg and Gauteng.
-              Data sourced from Google Maps. Updated regularly.
-            </p>
+        {/* Brand + tagline */}
+        <div className="footer-brand-row">
+          <div className="site-logo" style={{ flexShrink: 0 }}>
+            <span className="site-logo-badge">JHB</span>
+            <span className="site-logo-name">Jozi Directories</span>
           </div>
-
-          {/* Categories */}
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-3)', marginBottom: 14 }}>
-              Categories
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {NICHES.map(n => (
-                <Link key={n.slug} href={`/${n.slug}`} className="footer-nav-link">
-                  {n.icon} {n.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Info */}
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-3)', marginBottom: 14 }}>
-              About
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[
-                'Data: Google Maps',
-                'Region: Johannesburg, Gauteng',
-                'No paid placements',
-                'No fake listings',
-                `© ${new Date().getFullYear()} Jozi Directories`,
-              ].map(line => (
-                <span key={line} style={{ fontSize: 13, color: 'var(--ink-3)', lineHeight: 1.5 }}>{line}</span>
-              ))}
-            </div>
-          </div>
-
+          <p className="footer-tagline">
+            Local business listings for Johannesburg &amp; Gauteng. Sourced from Google Maps. No paid placements.
+          </p>
         </div>
+
+        {/* Flat link strip — all niches */}
+        <nav className="footer-links-row" aria-label="All categories">
+          {NICHES.map(n => (
+            <Link key={n.slug} href={`/${n.slug}`} className="footer-link">
+              {n.label}
+            </Link>
+          ))}
+        </nav>
+
       </div>
 
-      <div style={{ borderTop: '1px solid var(--border)', padding: '16px 0' }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-          <span style={{ fontSize: 12, color: 'var(--ink-3)' }}>Built in Johannesburg, South Africa</span>
-          <span style={{ fontSize: 12, color: 'var(--ink-3)' }}>Real data. Real businesses.</span>
+      {/* Bottom bar */}
+      <div className="footer-bar">
+        <div className="container footer-bar-inner">
+          <span>Built in Johannesburg, South Africa</span>
+          <span>© {new Date().getFullYear()} Jozi Directories · Real data. Real businesses.</span>
         </div>
       </div>
     </footer>

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node *)",
+      "Bash(awk '$5 > 100 {print $9, $5}')",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(grep -E \"\\\\.\\(json|js|md\\)$\")",
+      "Bash(grep -E \"\\\\.json$\")",
+      "Bash(awk '$5 == 3 {print $9}')",
+      "Bash(awk '$5 > 3 {print $9, $5}')",
+      "Bash(Get-ChildItem \"c:\\\\Users\\\\enrom\\\\Dev\\\\projects\\\\jozi-directories\\\\data\" -Filter \"*.json\")",
+      "Bash(Measure-Object)",
+      "Bash(Select-Object -ExpandProperty Count)",
+      "Bash(git add *)"
+    ]
+  }
+}

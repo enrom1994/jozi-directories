@@ -57,3 +57,18 @@ export function IconExternal({ size = 11 }) {
     </svg>
   )
 }
+export function IconLocation({ size = 14 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 14s-5-4.686-5-8a5 5 0 0 1 10 0c0 3.314-5 8-5 8Z"/>
+      <circle cx="8" cy="6" r="1.5"/>
+    </svg>
+  )
+}
+export function IconPhoneFilled({ size = 14 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor">
+      <path d="M2 2.5C2 2.2 2.2 2 2.5 2h2.4c.26 0 .48.18.53.44l.7 3.5a.54.54 0 0 1-.27.57l-1.2.67a8.1 8.1 0 0 0 4.16 4.16l.67-1.2a.54.54 0 0 1 .57-.27l3.5.7c.26.05.44.27.44.53V13.5c0 .28-.22.5-.5.5C6.1 14 2 9.9 2 2.5Z"/>
+    </svg>
+  )
+}

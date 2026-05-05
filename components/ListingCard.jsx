@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { IconPhone, IconGlobe, IconMapPin, IconStar, IconExternal, IconCheck } from './Icons'
 
 export default function ListingCard({ business, rank }) {
@@ -64,6 +65,14 @@ export default function ListingCard({ business, rank }) {
             </a>
           )}
         </div>
+
+        {/* Claim nudge — shown for businesses without a website */}
+        {!hasWebsite && (
+          <p className="claim-nudge">
+            Is this your business?{' '}
+            <Link href="/add-business" className="claim-nudge-link">Claim it free →</Link>
+          </p>
+        )}
       </div>
 
       {/* Right meta */}
@@ -78,18 +87,7 @@ export default function ListingCard({ business, rank }) {
         )}
       </div>
 
-      {/* Schema.org */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'LocalBusiness',
-          name: business.business_name,
-          address: { '@type': 'PostalAddress', streetAddress: business.address, addressLocality: business.suburb, addressCountry: 'ZA' },
-          telephone: business.phone,
-          url: business.website || undefined,
-          aggregateRating: rating > 0 ? { '@type': 'AggregateRating', ratingValue: rating, reviewCount: reviews } : undefined,
-        })
-      }} />
+      {/* Note: per-card LocalBusiness schema removed — page-level @graph handles all listings */}
     </div>
   )
 }

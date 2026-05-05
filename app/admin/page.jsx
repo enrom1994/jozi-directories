@@ -3,6 +3,8 @@
 // Only accessible when ADMIN_ENABLED=true.
 
 import { notFound } from 'next/navigation'
+import fs from 'fs'
+import path from 'path'
 import { NICHES } from '@/lib/niches'
 import { getNicheStats } from '@/lib/data'
 import AdminClient from './AdminClient'
@@ -41,6 +43,14 @@ export default function AdminPage() {
     adminEnabled: true,
   }
 
+  // Read featured.json
+  let featuredItems = []
+  try {
+    const raw = fs.readFileSync(path.join(process.cwd(), 'data', 'featured.json'), 'utf-8')
+    featuredItems = JSON.parse(raw)
+    if (!Array.isArray(featuredItems)) featuredItems = []
+  } catch (_) {}
+
   return (
     <>
       <Header />
@@ -50,6 +60,7 @@ export default function AdminPage() {
         envStatus={envStatus}
         pendingCount={pendingCount}
         totalNiches={NICHES.length}
+        featuredItems={featuredItems}
       />
     </>
   )

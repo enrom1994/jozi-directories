@@ -13,7 +13,9 @@ export async function generateStaticParams() {
   for (const niche of NICHES) {
     const suburbs = getSuburbsForNiche(niche)
     for (const suburb of suburbs) {
-      params.push({ niche: niche.slug, suburb: slugify(suburb) })
+      const suburbSlug = slugify(suburb)
+      if (!suburbSlug) continue   // skip suburbs that slugify to empty string
+      params.push({ niche: niche.slug, suburb: suburbSlug })
     }
   }
   return params
@@ -58,12 +60,12 @@ export default function SuburbPage({ params }) {
       <main>
 
         {/* ── HERO ──────────────────────────────────────────────── */}
-        <section style={{ background: 'var(--surface)', padding: '48px 0 40px', borderBottom: '1px solid var(--border)' }}>
+        <section style={{ background: 'var(--surface)', padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
           <div className="container">
 
             <div className="hero-eyebrow">
               <span className="hero-eyebrow-dot" />
-              {niche.icon} {niche.label}
+              {niche.label}
             </div>
 
             <h1 className="hero-title" style={{ fontSize: 'clamp(2rem, 5vw, 3.6rem)', marginBottom: 8 }}>
@@ -85,7 +87,7 @@ export default function SuburbPage({ params }) {
         </section>
 
         {/* ── CONTENT ───────────────────────────────────────────── */}
-        <section style={{ padding: '40px 0 80px' }}>
+        <section style={{ padding: '64px 0' }}>
           <div className="container">
             <div className="content-grid">
 
@@ -132,9 +134,9 @@ export default function SuburbPage({ params }) {
                   <div className="sidebar-panel-head">About This Area</div>
                   <div style={{ padding: '14px 16px' }}>
                     <p style={{ fontSize: 13, color: 'var(--ink-3)', lineHeight: 1.65 }}>
-                      {listings.length} verified {niche.label.toLowerCase()} in {suburbLabel},
-                      sourced from Google Maps. Sorted by rating, highest first.
-                      {withoutWebsite > 0 && ` ${withoutWebsite} have no website yet.`}
+                      Showing {listings.length} {niche.label.toLowerCase()} in {suburbLabel}, Johannesburg.
+                      Listings sourced from Google Maps and sorted by rating, highest first.
+                      {withWebsite > 0 && ` ${withWebsite} ${withWebsite === 1 ? 'business has' : 'businesses have'} a website listed.`}
                     </p>
                   </div>
                 </div>
