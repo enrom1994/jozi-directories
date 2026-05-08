@@ -2560,5 +2560,19 @@
     "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJc-NbFAprlR4RQ9byafBQsUQ",
     "scraped_at": "2026-05-08T14:13:50.449Z",
     "_place_id": "ChIJc-NbFAprlR4RQ9byafBQsUQ"
+  },
+  {
+    "niche": "Driving Schools",
+    "business_name": "ENOS DRIVING ACADEMY",
+    "address": "7190 Otlega Dr, Kagiso, Johannesburg, 1754, South Africa",
+    "suburb": "Kagiso",
+    "phone": "+27 11 410 1016",
+    "website": "",
+    "has_website": "FALSE",
+    "rating": 5,
+    "review_count": 2,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJTfiLyZyYlR4Rbu4fkzvzzQg",
+    "scraped_at": "2026-05-08T14:14:35.917Z",
+    "_place_id": "ChIJTfiLyZyYlR4Rbu4fkzvzzQg"
   }
 ]
