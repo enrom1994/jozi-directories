@@ -1510,5 +1510,19 @@
     "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJj9Mu-A5tlR4RMvPCS1nWZfk",
     "scraped_at": "2026-05-08T14:02:20.190Z",
     "_place_id": "ChIJj9Mu-A5tlR4RMvPCS1nWZfk"
+  },
+  {
+    "niche": "Driving Schools",
+    "business_name": "King George Driving School",
+    "address": "Riverside view, 1118 Starling Crescent, Riverside, Fourways, Johannesburg, 2191, South Africa",
+    "suburb": "Fourways",
+    "phone": "+27 71 300 8158",
+    "website": "http://www.rafuma.co.za/",
+    "has_website": "TRUE",
+    "rating": 4.9,
+    "review_count": 163,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ1UBh2j93lR4Rxii1lC64khc",
+    "scraped_at": "2026-05-08T14:05:18.135Z",
+    "_place_id": "ChIJ1UBh2j93lR4Rxii1lC64khc"
   }
 ]
