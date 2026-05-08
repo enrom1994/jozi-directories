@@ -614,5 +614,33 @@
     "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJbxKYMUR1lR4R8CxFIvb5Xm0",
     "scraped_at": "2026-05-08T14:36:59.954Z",
     "_place_id": "ChIJbxKYMUR1lR4R8CxFIvb5Xm0"
+  },
+  {
+    "niche": "Plumbers",
+    "business_name": "Plumber Midrand",
+    "address": "181 Kyalami Blvd, Khayalami Park, Midrand, 1684, South Africa",
+    "suburb": "Khayalami Park",
+    "phone": "+27 60 036 3268",
+    "website": "http://plumbermidrand-gauteng.co.za/",
+    "has_website": "TRUE",
+    "rating": 4.7,
+    "review_count": 30,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ__94qaZxlR4R5OYEJeqMrSw",
+    "scraped_at": "2026-05-08T14:38:34.839Z",
+    "_place_id": "ChIJ__94qaZxlR4R5OYEJeqMrSw"
+  },
+  {
+    "niche": "Plumbers",
+    "business_name": "Plumber Midrand Johannesburg",
+    "address": "",
+    "suburb": "",
+    "phone": "+27 60 097 2775",
+    "website": "https://plumbinginjohannesburg.co.za/",
+    "has_website": "TRUE",
+    "rating": 5,
+    "review_count": 20,
+    "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJiRwjp2ZtlR4RV4Vnx9YMDQo",
+    "scraped_at": "2026-05-08T14:38:34.839Z",
+    "_place_id": "ChIJiRwjp2ZtlR4RV4Vnx9YMDQo"
   }
 ]
