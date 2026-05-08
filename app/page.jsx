@@ -179,16 +179,29 @@ export default function HomePage() {
             </div>
 
             <div className="cat-grid stagger">
-              {nichesWithStats.map(niche => (
-                <Link key={niche.slug} href={`/${niche.slug}`} className="cat-card">
-                  <div className="cat-card-name">{niche.label}</div>
-                  <p className="cat-card-desc">{niche.description}</p>
-                  <div className="cat-card-footer">
-                    <span className="cat-card-count">{niche.stats.total} listings</span>
-                    <span className="cat-card-arrow">→</span>
-                  </div>
-                </Link>
-              ))}
+              {nichesWithStats.map(niche => {
+                const NICHES_WITH_IMAGES = ['barbers', 'nail-bars', 'auto-electricians', 'solar-inverter-installers', 'debt-review-consultants', 'dog-groomers', 'phone-repair-shops', 'driving-schools']
+                const hasNicheImage = NICHES_WITH_IMAGES.includes(niche.slug)
+                return (
+                  <Link key={niche.slug} href={`/${niche.slug}`} className="cat-card">
+                    {hasNicheImage && (
+                      <div className="cat-card-image">
+                        <img
+                          src={`/niches/${niche.slug}.png`}
+                          alt={`${niche.label} in Johannesburg`}
+                          className="cat-card-img"
+                        />
+                      </div>
+                    )}
+                    <div className="cat-card-name">{niche.label}</div>
+                    <p className="cat-card-desc">{niche.description}</p>
+                    <div className="cat-card-footer">
+                      <span className="cat-card-count">{niche.stats.total} listings</span>
+                      <span className="cat-card-arrow">→</span>
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </section>
